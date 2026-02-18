@@ -39,8 +39,6 @@
       text-decoration: none;
     }
 
-    /* Layout */
-
     header,
     section {
       padding: 60px 20px;
@@ -50,8 +48,6 @@
       max-width: 1100px;
       margin: 0 auto;
     }
-
-    /* Navigation */
 
     .nav {
       position: sticky;
@@ -110,8 +106,6 @@
       font-size: 22px;
       cursor: pointer;
     }
-
-    /* Hero */
 
     header.hero {
       padding-top: 80px;
@@ -176,8 +170,6 @@
       border: 1px solid var(--border-soft);
     }
 
-    /* Section headings */
-
     .section-title {
       font-family: 'Dancing Script', cursive;
       font-size: 34px;
@@ -193,8 +185,6 @@
       text-transform: uppercase;
       margin-bottom: 40px;
     }
-
-    /* Poem */
 
     .poem-card {
       max-width: 700px;
@@ -219,7 +209,54 @@
       white-space: pre-line;
     }
 
-    /* Two-column sections */
+    /* ── Wedding section: matched card + map ── */
+
+    .wedding-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: stretch; /* both children stretch to same height */
+    }
+
+    .wedding-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px 28px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 380px;
+    }
+
+    .wedding-card h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .wedding-card p {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .wedding-map {
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      min-height: 380px;
+    }
+
+    .wedding-map iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 380px;
+      border: 0;
+      display: block;
+    }
+
+    /* ── end wedding section ── */
 
     .two-col {
       display: grid;
@@ -272,8 +309,6 @@
       height: 450px;
       border: 0;
     }
-
-    /* Timelines */
 
     .timeline {
       display: grid;
@@ -337,8 +372,6 @@
       box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
     }
 
-    /* Khmer traditions */
-
     .traditions-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -371,8 +404,6 @@
       font-size: 12px;
       color: #8a6a5a;
     }
-
-    /* Gifts & bank */
 
     .split-two {
       display: grid;
@@ -407,8 +438,6 @@
       margin-top: 8px;
     }
 
-    /* Gallery */
-
     .gallery-card {
       max-width: 600px;
       margin: 0 auto;
@@ -433,8 +462,6 @@
       text-transform: uppercase;
     }
 
-    /* Footer */
-
     footer {
       padding: 30px 20px 40px;
       text-align: center;
@@ -442,15 +469,19 @@
       color: #8a6a5a;
     }
 
-    /* Responsive */
-
     @media (max-width: 900px) {
       .hero-grid,
       .two-col,
+      .wedding-grid,
       .timeline,
       .traditions-grid,
       .split-two {
         grid-template-columns: 1fr;
+      }
+
+      .wedding-map,
+      .wedding-map iframe {
+        min-height: 300px;
       }
 
       header,
@@ -521,7 +552,6 @@
         <a href="#rsvp" class="hero-cta">Click to RSVP</a>
       </div>
       <div class="hero-image">
-        <!-- Replace src with your Angkor Wat hero photo -->
         <img src="images/we_angkor_sketch.png" alt="Ratha and Michal at Angkor Wat">
       </div>
     </div>
@@ -556,21 +586,23 @@ that home is not a place but a person.
       <div class="section-title">Our most special day</div>
       <div class="section-subtitle">Wedding in Chbar Mon</div>
 
-      <div class="two-col">
-        <div class="card">
+      <div class="wedding-grid">
+        <div class="wedding-card">
           <span class="tag">Wedding</span>
-          <h3>You’re invited to our most special day</h3>
+          <h3>You're invited to our most special day</h3>
           <p><strong>18–20 April 2026</strong></p>
           <p>Rokar Thum, Chbar Mon, Kampong Speu, Cambodia</p>
           <p style="margin-top:10px;font-size:14px;">
             We would be honoured to have you with us as we celebrate our Khmer and Western wedding ceremonies with family and friends.
           </p>
         </div>
-        <div class="map-embed">
-          <!-- Replace the src below with your real Google Maps embed URL -->
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d691.1660704145655!2d104.51351767413755!3d11.492493233465826!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2suk!4v1771430072227!5m2!1sen!2suk" width="800" height="600" style="border:0;" allowfullscreen="" 
-            loading="lazy" 
+
+        <!-- Map with destination pin using q= parameter at exact coordinates -->
+        <div class="wedding-map">
+          <iframe
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=11.492493,104.513518&zoom=15"
+            allowfullscreen
+            loading="lazy"
             referrerpolicy="origin">
           </iframe>
         </div>
@@ -602,7 +634,7 @@ that home is not a place but a person.
           <p><strong>20–24 April 2026</strong></p>
           <p>Isann Lodge, Isann Road, Siem Reap, Cambodia</p>
           <p style="margin-top:10px;font-size:14px;">
-            After the wedding, we’ll continue the celebrations in Siem Reap with good food, music, and time together.
+            After the wedding, we'll continue the celebrations in Siem Reap with good food, music, and time together.
           </p>
         </div>
       </div>
@@ -729,32 +761,19 @@ that home is not a place but a person.
 
       <div class="traditions-grid">
         <div class="tradition-card">
-          <div class="tradition-image">
-            <!-- Placeholder: replace with real photo -->
-            Photo placeholder
-          </div>
+          <div class="tradition-image">Photo placeholder</div>
           <h4>Hair cutting ceremony</h4>
-          <p>
-            A symbolic “cutting away” of the past, where family and friends bless the couple with wishes for a new life together.
-          </p>
+          <p>A symbolic "cutting away" of the past, where family and friends bless the couple with wishes for a new life together.</p>
         </div>
         <div class="tradition-card">
-          <div class="tradition-image">
-            Photo placeholder
-          </div>
+          <div class="tradition-image">Photo placeholder</div>
           <h4>Thread tying &amp; blessings</h4>
-          <p>
-            Guests tie red and white threads around our wrists, offering prayers and blessings for health, happiness, and prosperity.
-          </p>
+          <p>Guests tie red and white threads around our wrists, offering prayers and blessings for health, happiness, and prosperity.</p>
         </div>
         <div class="tradition-card">
-          <div class="tradition-image">
-            Photo placeholder
-          </div>
+          <div class="tradition-image">Photo placeholder</div>
           <h4>Offering to ancestors</h4>
-          <p>
-            We honour our ancestors and families, thanking them for guiding us to this moment and asking for their continued protection.
-          </p>
+          <p>We honour our ancestors and families, thanking them for guiding us to this moment and asking for their continued protection.</p>
         </div>
       </div>
     </div>
@@ -769,73 +788,48 @@ that home is not a place but a person.
       <div class="split-two">
         <div class="gift-card">
           <h3>Experience gifts</h3>
-          <p>
-            We are planning to set up an experience-based gift list (for example: travel, food, and adventures together).
-          </p>
-          <p>
-            Once it is ready, we will add a link here so you can choose an experience to gift us instead of a physical present.
-          </p>
-          <p style="font-size:13px;margin-top:6px;">
-            For now, this is a placeholder section — please check back closer to the wedding date.
-          </p>
+          <p>We are planning to set up an experience-based gift list (for example: travel, food, and adventures together).</p>
+          <p>Once it is ready, we will add a link here so you can choose an experience to gift us instead of a physical present.</p>
+          <p style="font-size:13px;margin-top:6px;">For now, this is a placeholder section — please check back closer to the wedding date.</p>
         </div>
         <div class="gift-card">
           <h3>Bank transfer details</h3>
-          <p>
-            If you would prefer to give a monetary gift, you can use the bank details below.
-          </p>
+          <p>If you would prefer to give a monetary gift, you can use the bank details below.</p>
           <div class="bank-details">
-            <!-- Edit these details as needed -->
             Bank name: YOUR BANK NAME<br>
             Account holder: YOUR NAME(S)<br>
             IBAN: XX00 0000 0000 0000 0000 0000<br>
             BIC / SWIFT: XXXXXXXX<br>
-            Reference: “Wedding gift”
+            Reference: "Wedding gift"
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Photo gallery upload link -->
+  <!-- Photo gallery -->
   <section id="gallery">
     <div class="container">
       <div class="section-title">Share your photos</div>
       <div class="section-subtitle">Help us remember every moment</div>
 
       <div class="gallery-card">
-        <p>
-          During the wedding and the party, you’ll see a QR code that links to our shared photo gallery.
-        </p>
-        <p>
-          After the celebrations, please upload your favourite photos and videos so we can relive the day through your eyes.
-        </p>
-        <a
-          class="gallery-button"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer">
-          Upload your photos
-        </a>
-        <p style="margin-top:10px;font-size:12px;color:#8a6a5a;">
-          (This button will link to our chosen cloud gallery service.)
-        </p>
+        <p>During the wedding and the party, you'll see a QR code that links to our shared photo gallery.</p>
+        <p>After the celebrations, please upload your favourite photos and videos so we can relive the day through your eyes.</p>
+        <a class="gallery-button" href="#" target="_blank" rel="noopener noreferrer">Upload your photos</a>
+        <p style="margin-top:10px;font-size:12px;color:#8a6a5a;">(This button will link to our chosen cloud gallery service.)</p>
       </div>
     </div>
   </section>
 
-  <!-- RSVP anchor (placeholder) -->
+  <!-- RSVP -->
   <section id="rsvp">
     <div class="container">
       <div class="section-title">RSVP</div>
-      <div class="section-subtitle">Let us know you’re coming</div>
+      <div class="section-subtitle">Let us know you're coming</div>
       <div class="gallery-card">
-        <p>
-          We will add an RSVP form or link here so you can confirm your attendance and share any important details (dietary needs, travel plans, etc.).
-        </p>
-        <p style="margin-top:8px;font-size:13px;">
-          For now, please contact us directly if you already know you will be joining us.
-        </p>
+        <p>We will add an RSVP form or link here so you can confirm your attendance and share any important details (dietary needs, travel plans, etc.).</p>
+        <p style="margin-top:8px;font-size:13px;">For now, please contact us directly if you already know you will be joining us.</p>
       </div>
     </div>
   </section>
@@ -847,7 +841,6 @@ that home is not a place but a person.
   </footer>
 
   <script>
-    // Countdown: months / weeks / days until 18 April 2026
     function updateCountdown() {
       const target = new Date("2026-04-18T00:00:00");
       const now = new Date();
@@ -876,5 +869,4 @@ that home is not a place but a person.
     setInterval(updateCountdown, 1000 * 60 * 60);
   </script>
 </body>
-
 </html>
