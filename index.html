@@ -1,1 +1,880 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <title>Ratha & Michal Wedding</title> <meta name="viewport" content="width=device-width, initial-scale=1" /> <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet"> <style> :root { --bg: #f7f0e8; --bg-alt: #f3e6d8; --text: #5c3b32; --accent: #c58b7b; --accent-soft: #e3b9a7; --border-soft: #e0cbb8; --white: #ffffff; } * { box-sizing: border-box; margin: 0; padding: 0; } body { font-family: 'Playfair Display', serif; background: var(--bg); color: var(--text); line-height: 1.6; } img { max-width: 100%; display: block; } a { color: inherit; text-decoration: none; } header, section { padding: 60px 20px; } .container { max-width: 1100px; margin: 0 auto; } .nav { position: sticky; top: 0; z-index: 50; background: rgba(247, 240, 232, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-soft); } .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; } .nav-brand { font-family: 'Dancing Script', cursive; font-size: 26px; color: var(--accent); } .nav-links { display: flex; gap: 18px; font-size: 14px; } .nav-links a { position: relative; padding-bottom: 2px; } .nav-links a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.2s ease; } .nav-links a:hover::after { width: 100%; } .nav-toggle { display: none; border: none; background: none; font-size: 22px; cursor: pointer; } header.hero { padding-top: 80px; background: radial-gradient(circle at top, #fdf7f1 0, #f7f0e8 55%, #f1e3d4 100%); } .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; } .hero-text h1 { font-family: 'Dancing Script', cursive; font-size: 52px; color: var(--accent); margin-bottom: 10px; } .hero-text h2 { font-size: 20px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; } .hero-date { font-size: 16px; margin-bottom: 20px; } .hero-countdown-label { font-size: 14px; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 8px; } .countdown { font-size: 26px; font-family: 'Dancing Script', cursive; color: var(--text); margin-bottom: 20px; } .hero-cta { display: inline-block; padding: 10px 22px; border-radius: 999px; background: var(--accent); color: var(--white); font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; } .hero-image { border-radius: 24px; overflow: hidden; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12); border: 1px solid var(--border-soft); } .section-title { font-family: 'Dancing Script', cursive; font-size: 34px; text-align: center; margin-bottom: 10px; color: var(--accent); } .section-subtitle { text-align: center; font-size: 14px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 40px; } .poem-card { max-width: 700px; margin: 0 auto; background: var(--bg-alt); border-radius: 24px; padding: 40px 30px; border: 1px solid var(--border-soft); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06); } .poem-title { font-family: 'Dancing Script', cursive; font-size: 30px; text-align: center; margin-bottom: 20px; } .poem-body { font-size: 16px; text-align: center; white-space: pre-line; } .two-col { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; } .card { background: var(--white); border-radius: 24px; padding: 24px; border: 1px solid var(--border-soft); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); } .card h3 { font-size: 22px; margin-bottom: 10px; } .card p { font-size: 15px; margin-bottom: 6px; } .tag { display: inline-block; padding: 4px 10px; border-radius: 999px; background: var(--bg-alt); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 10px; } .map-embed { width: 100%; max-width: 900px; margin: 40px auto; border-radius: 24px; overflow: hidden; border: 1px solid var(--border-soft); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06); } .map-embed iframe { width: 100%; height: 450px; border: 0; } .timeline { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; align-items: flex-start; } .timeline-list { position: relative; padding-left: 26px; } .timeline-list::before { content: ""; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--accent-soft); } .timeline-item { margin-bottom: 26px; position: relative; } .timeline-dot { position: absolute; left: -2px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); } .timeline-date { font-weight: 600; margin-bottom: 4px; font-size: 15px; } .timeline-details li { font-size: 14px; margin-left: 18px; margin-bottom: 2px; } .filmstrip { display: grid; gap: 14px; } .filmstrip-frame { border-radius: 18px; overflow: hidden; border: 1px solid var(--border-soft); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08); } .traditions-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; } .tradition-card { background: var(--white); border-radius: 20px; padding: 18px; border: 1px solid var(--border-soft); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04); font-size: 14px; } .tradition-card h4 { font-size: 16px; margin-bottom: 6px; } .tradition-image { border-radius: 14px; overflow: hidden; margin-bottom: 10px; background: var(--bg-alt); height: 140px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #8a6a5a; } .split-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; } .gift-card { background: var(--white); border-radius: 20px; padding: 22px; border: 1px solid var(--border-soft); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04); font-size: 14px; } .gift-card h3 { font-size: 18px; margin-bottom: 8px; } .gift-card p { margin-bottom: 6px; } .bank-details { font-family: monospace; font-size: 13px; background: var(--bg-alt); padding: 10px 12px; border-radius: 10px; margin-top: 8px; } .gallery-card { max-width: 600px; margin: 0 auto; text-align: center; background: var(--white); border-radius: 24px; padding: 26px 22px; border: 1px solid var(--border-soft); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); font-size: 14px; } .gallery-button { display: inline-block; margin-top: 14px; padding: 10px 22px; border-radius: 999px; background: var(--accent); color: var(--white); font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; } footer { padding: 30px 20px 40px; text-align: center; font-size: 12px; color: #8a6a5a; } @media (max-width: 900px) { .hero-grid, .two-col, .timeline, .traditions-grid, .split-two { grid-template-columns: 1fr; } header, section { padding: 40px 18px; } .hero-text h1 { font-size: 40px; } .nav-links { display: none; position: absolute; top: 48px; right: 10px; background: var(--bg); border-radius: 12px; padding: 10px 14px; box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12); flex-direction: column; min-width: 170px; } .nav-links.show { display: flex; } .nav-toggle { display: block; } } </style> </head> <body> <!-- Navigation --> <nav class="nav"> <div class="nav-inner"> <div class="nav-brand">Ratha & Michal</div> <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('show')"> ☰ </button> <div class="nav-links"> <a href="#hero">Home</a> <a href="#poem">Our story</a> <a href="#wedding">Wedding</a> <a href="#party">Party</a> <a href="#itinerary">Itinerary</a> <a href="#traditions">Khmer traditions</a> <a href="#gifts">Gifts</a> <a href="#gallery">Photos</a> </div> </div> </nav> <!-- Hero --> <header id="hero" class="hero"> <div class="container hero-grid"> <div class="hero-text"> <h2>We are getting married</h2> <h1>Ratha & Michal</h1> <p class="hero-date">18–20 April 2026 · Rokar Thum, Chbar Mon, Kampong Speu, Cambodia</p> <div class="hero-countdown-label">Countdown to our wedding</div> <div id="countdown" class="countdown">Loading…</div> <a href="#rsvp" class="hero-cta">Click to RSVP</a> </div> <div class="hero-image"> <img src="images/we_angkor_sketch.png" alt="Ratha and Michal at Angkor Wat"> </div> </div> </header> <!-- Poem --> <section id="poem"> <div class="container"> <div class="section-title">Two Worlds, One Home</div> <div class="section-subtitle">Our story</div> <div class="poem-card"> <div class="poem-title">Two Worlds · One Home</div> <div class="poem-body"> Fate did not announce itself loudly. It arrived beneath a Tenerife sky, as one year ended and another world opened. Love came quickly, first as knowing, then as choosing. From Europe to Asia, across time and distance, we learned that souls move faster than miles, that home is not a place but a person. </div> </div> </div> </section> <!-- Main wedding invitation --> <section id="wedding"> <div class="container"> <div class="section-title">Our most special day</div> <div class="section-subtitle">Wedding in Chbar Mon</div> <div class="two-col"> <div class="card" style="height: 600px;"> <span class="tag">Wedding</span> <h3>You’re invited to our most special day</h3> <p><strong>18–20 April 2026</strong></p> <p>Rokar Thum, Chbar Mon, Kampong Speu, Cambodia</p> <p style="margin-top:10px;font-size:14px;"> We would be honoured to have you with us as we celebrate our Khmer and Western wedding ceremonies with family and friends. </p> </div> <div class="map-embed"> <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d691.1660704145655!2d104.51351767413755!3d11.492493233465826!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2suk!4v1771430072227!5m2!1sen!2suk" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="origin"></iframe> </div> </div> </div> </section> <!-- Party in Siem Reap --> <section id="party"> <div class="container"> <div class="section-title">…and our mostest special party</div> <div class="section-subtitle">Siem Reap celebration</div> <div class="two-col"> <div class="filmstrip"> <div class="filmstrip-frame"> <img src="images/we_smile_puerto2.jpg" alt="Couple photo"> </div> <div class="filmstrip-frame"> <img src="https://via.placeholder.com/600x400?text=Angkor+Wat+sunset" alt="Angkor Wat sunset"> </div> <div class="filmstrip-frame"> <img src="https://via.placeholder.com/600x400?text=Isann+Lodge" alt="Isann Lodge"> </div> </div> <div class="card"> <span class="tag">Party</span> <h3>Our mostest special party</h3> <p><strong>20–24 April 2026</strong></p> <p>Isann Lodge, Isann Road, Siem Reap, Cambodia</p> <p style="margin-top:10px;font-size:14px;"> After the wedding, we’ll continue the celebrations in Siem Reap with good food, music, and time together. </p> </div> </div> </div> </section> <!-- Wedding itinerary --> <section id="itinerary"> <div class="container"> <div class="section-title">Wedding itinerary</div> <div class="section-subtitle">Chbar Mon & Siem Reap</div> <div class="timeline"> <div> <div class="timeline-list"> <div class="timeline-item"> <div class="timeline-dot"></div> <div class="timeline-date">17/04</div> <ul class="timeline-details"> <li>Guests travel from Phnom Penh to Chbar Mon</li> <li>Transport will be provided</li> <li>Accommodation will be arranged</li> </ul> </div> <div class="timeline-item"> <div class="timeline-dot"></div> <div class="timeline-date">18/04</div> <ul class="timeline-details"> <li>Wedding day</li> </ul> </div> <div class="timeline-item"> <div class="timeline-dot"></div> <div class="timeline-date">19/04</div> <ul class="timeline-details"> <li>Rest day</li> </ul> </div> <div class="timeline-item"> <div class="timeline-dot"></div> <div class="timeline-date">20/04</div> <ul class="timeline-details"> <li>Guests travel from Chbar Mon to Siem Reap</li> <li>Transport will be provided</li> <li>Hotel will be arranged</li> </ul> </div> </div> </div> <div class="filmstrip"> <div class="filmstrip-frame"> <img src="https://via.placeholder.com/600x400?text=Travel+to+Chbar+Mon" alt="Travel"> </div> <div class="filmstrip-frame"> <img src="https://via.placeholder.com/600x400?text=Wedding+day" alt="Wedding day"> </div> <div class="filmstrip-frame"> <img src="https://via.placeholder.com/600x400?text=Travel+to+Siem+Reap" alt="Travel to Siem Reap"> </div> </div> </div> </div> </section> <section> <div class="container"> <div class="section-title">Honeymoon journey</div> <div class="section-subtitle">After the celebrations</div> <div class="timeline"> <div> <div class="timeline-list"> <div class="timeline-item"> <div class="timeline-dot"></div> <div class="timeline-date">21/04</div> <ul class="timeline-details"> <li>Newlyweds arrive in Siem Reap</li> </ul> </div> <div class="timeline-item"> <div class="timeline-dot"></div> <div class="timeline-date">22/04</div> <ul class="timeline-details"> <li>Visit to Angkor Wat</li> </ul> </div> <div class="timeline-item"> <div class="timeline-dot"></div> <div class="timeline-date">24/04</div> <ul class="timeline-details"> <li>Newlyweds travel from Siem Reap to Phnom Penh</li> </ul> </div> <div class="timeline-item"> <div class="timeline-dot"></div> <div class="timeline-date">25/04</div> <ul class="timeline-details"> <li>Newlyweds depart from Techo International Airport to Manchester</li> </ul> </div> </div> </div> <div class="filmstrip"> <div class="filmstrip-frame"> <img src="https://via.placeholder.com/600x400?text=Siem+Reap+arrival" alt="Siem Reap arrival"> </div> <div class="filmstrip-frame"> <img src="https://via.placeholder.com/600x400?text=Angkor+Wat+visit" alt="Angkor Wat visit"> </div> <div class="filmstrip-frame"> <img src="https://via.placeholder.com/600x400?text=Back+to+Phnom+Penh" alt="Back to Phnom Penh"> </div> </div> </div> </div> </section> <section id="traditions"> <div class="container"> <div class="section-title">Khmer wedding traditions</div> <div class="section-subtitle">A glimpse into our ceremonies</div> <div class="traditions-grid"> <div class="tradition-card"> <div class="tradition-image"> Photo placeholder </div> <h4>Hair cutting ceremony</h4> <p> A symbolic “cutting away” of the past, where family and friends bless the couple with wishes for a new life together. </p> </div> <div class="tradition-card"> <div class="tradition-image"> Photo placeholder </div> <h4>Thread tying & blessings</h4> <p> Guests tie red and white threads around our wrists, offering prayers and blessings for health, happiness, and prosperity. </p> </div> <div class="tradition-card"> <div class="tradition-image"> Photo placeholder </div> <h4>Offering to ancestors</h4> <p> We honour our ancestors and families, thanking them for guiding us to this moment and asking for their continued protection. </p> </div> </div> </div> </section> <section id="gifts"> <div class="container"> <div class="section-title">Gifts & blessings</div> <div class="section-subtitle">Your presence is the greatest gift</div> <div class="split-two"> <div class="gift-card"> <h3>Experience gifts</h3> <p> We are planning to set up an experience-based gift list (for example: travel, food, and adventures together). </p> <p> Once it is ready, we will add a link here so you can choose an experience to gift us instead of a physical present. </p> <p style="font-size:13px;margin-top:6px;"> For now, this is a placeholder section — please check back closer to the wedding date. </p> </div> <div class="gift-card"> <h3>Bank transfer details</h3> <p> If you would prefer to give a monetary gift, you can use the bank details below. </p> <div class="bank-details"> Bank name: YOUR BANK NAME<br> Account holder: YOUR NAME(S)<br> IBAN: XX00 0000 0000 0000 0000 0000<br> BIC / SWIFT: XXXXXXXX<br> Reference: “Wedding gift” </div> </div> </div> </div> </section> <section id="gallery"> <div class="container"> <div class="section-title">Share your photos</div> <div class="section-subtitle">Help us remember every moment</div> <div class="gallery-card"> <p> During the wedding and the party, you’ll see a QR code that links to our shared photo gallery. </p> <p> After the celebrations, please upload your favourite photos and videos so we can relive the day through your eyes. </p> <a class="gallery-button" href="#" target="_blank" rel="noopener noreferrer"> Upload your photos </a> <p style="margin-top:10px;font-size:12px;color:#8a6a5a;"> (This button will link to our chosen cloud gallery service.) </p> </div> </div> </section> <section id="rsvp"> <div class="container"> <div class="section-title">RSVP</div> <div class="section-subtitle">Let us know you’re coming</div> <div class="gallery-card"> <p> We will add an RSVP form or link here so you can confirm your attendance and share any important details (dietary needs, travel plans, etc.). </p> <p style="margin-top:8px;font-size:13px;"> For now, please contact us directly if you already know you will be joining us. </p> </div> </div> </section> <footer> Ratha & Michal · 18–25 April 2026 · Cambodia<br> Built with love for our family and friends. </footer> <script> // Countdown: months / weeks / days until 18 April 2026 function updateCountdown() { const target = new Date("2026-04-18T00:00:00"); const now = new Date(); let diff = target - now; const el = document.getElementById("countdown"); if (!el) return; if (diff <= 0) { el.textContent = "It's time!"; return; } const daysTotal = Math.floor(diff / (1000 * 60 * 60 * 24)); const months = Math.floor(daysTotal / 30.437); const weeks = Math.floor((daysTotal % 30.437) / 7); const days = Math.floor((daysTotal % 30.437) % 7); el.textContent = months + " months " + weeks + " weeks " + days + " days"; } updateCountdown(); setInterval(updateCountdown, 1000 * 60 * 60); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ratha & Michal Wedding</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f0e8;
+      --bg-alt: #f3e6d8;
+      --text: #5c3b32;
+      --accent: #c58b7b;
+      --accent-soft: #e3b9a7;
+      --border-soft: #e0cbb8;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Playfair Display', serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Layout */
+
+    header,
+    section {
+      padding: 60px 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Navigation */
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(247, 240, 232, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    .nav-brand {
+      font-family: 'Dancing Script', cursive;
+      font-size: 26px;
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.2s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-toggle {
+      display: none;
+      border: none;
+      background: none;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    /* Hero */
+
+    header.hero {
+      padding-top: 80px;
+      background: radial-gradient(circle at top, #fdf7f1 0, #f7f0e8 55%, #f1e3d4 100%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 52px;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .hero-text h2 {
+      font-size: 20px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .hero-date {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .hero-countdown-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 8px;
+    }
+
+    .countdown {
+      font-size: 26px;
+      font-family: 'Dancing Script', cursive;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--white);
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-image {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+      border: 1px solid var(--border-soft);
+    }
+
+    /* Section headings */
+
+    .section-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 34px;
+      text-align: center;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    /* Poem */
+
+    .poem-card {
+      max-width: 700px;
+      margin: 0 auto;
+      background: var(--bg-alt);
+      border-radius: 24px;
+      padding: 40px 30px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .poem-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 30px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .poem-body {
+      font-size: 16px;
+      text-align: center;
+      white-space: pre-line;
+    }
+
+    /* Two-column sections */
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 24px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .card h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--bg-alt);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .map-embed {
+      width: 100%;
+      max-width: 900px;
+      margin: 40px auto;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .map-embed iframe {
+      width: 100%;
+      height: 450px;
+      border: 0;
+    }
+
+    /* Timelines */
+
+    .timeline {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .timeline-list {
+      position: relative;
+      padding-left: 26px;
+    }
+
+    .timeline-list::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--accent-soft);
+    }
+
+    .timeline-item {
+      margin-bottom: 26px;
+      position: relative;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2px;
+      top: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid var(--bg);
+    }
+
+    .timeline-date {
+      font-weight: 600;
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    .timeline-details li {
+      font-size: 14px;
+      margin-left: 18px;
+      margin-bottom: 2px;
+    }
+
+    .filmstrip {
+      display: grid;
+      gap: 14px;
+    }
+
+    .filmstrip-frame {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Khmer traditions */
+
+    .traditions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .tradition-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 18px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
+      font-size: 14px;
+    }
+
+    .tradition-card h4 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .tradition-image {
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      background: var(--bg-alt);
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #8a6a5a;
+    }
+
+    /* Gifts & bank */
+
+    .split-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 30px;
+    }
+
+    .gift-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 22px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
+      font-size: 14px;
+    }
+
+    .gift-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .gift-card p {
+      margin-bottom: 6px;
+    }
+
+    .bank-details {
+      font-family: monospace;
+      font-size: 13px;
+      background: var(--bg-alt);
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-top: 8px;
+    }
+
+    /* Gallery */
+
+    .gallery-card {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      background: var(--white);
+      border-radius: 24px;
+      padding: 26px 22px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      font-size: 14px;
+    }
+
+    .gallery-button {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--white);
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* Footer */
+
+    footer {
+      padding: 30px 20px 40px;
+      text-align: center;
+      font-size: 12px;
+      color: #8a6a5a;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .two-col,
+      .timeline,
+      .traditions-grid,
+      .split-two {
+        grid-template-columns: 1fr;
+      }
+
+      header,
+      section {
+        padding: 40px 18px;
+      }
+
+      .hero-text h1 {
+        font-size: 40px;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 48px;
+        right: 10px;
+        background: var(--bg);
+        border-radius: 12px;
+        padding: 10px 14px;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+        flex-direction: column;
+        min-width: 170px;
+      }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">Ratha &amp; Michal</div>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('show')">
+        ☰
+      </button>
+      <div class="nav-links">
+        <a href="#hero">Home</a>
+        <a href="#poem">Our story</a>
+        <a href="#wedding">Wedding</a>
+        <a href="#party">Party</a>
+        <a href="#itinerary">Itinerary</a>
+        <a href="#traditions">Khmer traditions</a>
+        <a href="#gifts">Gifts</a>
+        <a href="#gallery">Photos</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header id="hero" class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h2>We are getting married</h2>
+        <h1>Ratha &amp; Michal</h1>
+        <p class="hero-date">18–20 April 2026 · Rokar Thum, Chbar Mon, Kampong Speu, Cambodia</p>
+
+        <div class="hero-countdown-label">Countdown to our wedding</div>
+        <div id="countdown" class="countdown">Loading…</div>
+
+        <a href="#rsvp" class="hero-cta">Click to RSVP</a>
+      </div>
+      <div class="hero-image">
+        <!-- Replace src with your Angkor Wat hero photo -->
+        <img src="images/we_angkor_sketch.png" alt="Ratha and Michal at Angkor Wat">
+      </div>
+    </div>
+  </header>
+
+  <!-- Poem -->
+  <section id="poem">
+    <div class="container">
+      <div class="section-title">Two Worlds, One Home</div>
+      <div class="section-subtitle">Our story</div>
+
+      <div class="poem-card">
+        <div class="poem-title">Two Worlds · One Home</div>
+        <div class="poem-body">
+Fate did not announce itself loudly.
+It arrived beneath a Tenerife sky,
+as one year ended and another world opened.
+Love came quickly,
+first as knowing, then as choosing.
+From Europe to Asia,
+across time and distance,
+we learned that souls move faster than miles,
+that home is not a place but a person.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main wedding invitation -->
+  <section id="wedding">
+    <div class="container">
+      <div class="section-title">Our most special day</div>
+      <div class="section-subtitle">Wedding in Chbar Mon</div>
+
+      <div class="two-col">
+        <div class="card">
+          <span class="tag">Wedding</span>
+          <h3>You’re invited to our most special day</h3>
+          <p><strong>18–20 April 2026</strong></p>
+          <p>Rokar Thum, Chbar Mon, Kampong Speu, Cambodia</p>
+          <p style="margin-top:10px;font-size:14px;">
+            We would be honoured to have you with us as we celebrate our Khmer and Western wedding ceremonies with family and friends.
+          </p>
+        </div>
+        <div class="map-embed">
+          <!-- Replace the src below with your real Google Maps embed URL -->
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d691.1660704145655!2d104.51351767413755!3d11.492493233465826!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2suk!4v1771430072227!5m2!1sen!2suk" width="800" height="600" style="border:0;" allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="origin">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Party in Siem Reap -->
+  <section id="party">
+    <div class="container">
+      <div class="section-title">…and our mostest special party</div>
+      <div class="section-subtitle">Siem Reap celebration</div>
+
+      <div class="two-col">
+        <div class="filmstrip">
+          <div class="filmstrip-frame">
+            <img src="images/we_smile_puerto2.jpg" alt="Couple photo">
+          </div>
+          <div class="filmstrip-frame">
+            <img src="https://via.placeholder.com/600x400?text=Angkor+Wat+sunset" alt="Angkor Wat sunset">
+          </div>
+          <div class="filmstrip-frame">
+            <img src="https://via.placeholder.com/600x400?text=Isann+Lodge" alt="Isann Lodge">
+          </div>
+        </div>
+        <div class="card">
+          <span class="tag">Party</span>
+          <h3>Our mostest special party</h3>
+          <p><strong>20–24 April 2026</strong></p>
+          <p>Isann Lodge, Isann Road, Siem Reap, Cambodia</p>
+          <p style="margin-top:10px;font-size:14px;">
+            After the wedding, we’ll continue the celebrations in Siem Reap with good food, music, and time together.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wedding itinerary -->
+  <section id="itinerary">
+    <div class="container">
+      <div class="section-title">Wedding itinerary</div>
+      <div class="section-subtitle">Chbar Mon &amp; Siem Reap</div>
+
+      <div class="timeline">
+        <div>
+          <div class="timeline-list">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">17/04</div>
+              <ul class="timeline-details">
+                <li>Guests travel from Phnom Penh to Chbar Mon</li>
+                <li>Transport will be provided</li>
+                <li>Accommodation will be arranged</li>
+              </ul>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">18/04</div>
+              <ul class="timeline-details">
+                <li>Wedding day</li>
+              </ul>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">19/04</div>
+              <ul class="timeline-details">
+                <li>Rest day</li>
+              </ul>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">20/04</div>
+              <ul class="timeline-details">
+                <li>Guests travel from Chbar Mon to Siem Reap</li>
+                <li>Transport will be provided</li>
+                <li>Hotel will be arranged</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="filmstrip">
+          <div class="filmstrip-frame">
+            <img src="https://via.placeholder.com/600x400?text=Travel+to+Chbar+Mon" alt="Travel">
+          </div>
+          <div class="filmstrip-frame">
+            <img src="https://via.placeholder.com/600x400?text=Wedding+day" alt="Wedding day">
+          </div>
+          <div class="filmstrip-frame">
+            <img src="https://via.placeholder.com/600x400?text=Travel+to+Siem+Reap" alt="Travel to Siem Reap">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Honeymoon itinerary -->
+  <section>
+    <div class="container">
+      <div class="section-title">Honeymoon journey</div>
+      <div class="section-subtitle">After the celebrations</div>
+
+      <div class="timeline">
+        <div>
+          <div class="timeline-list">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">21/04</div>
+              <ul class="timeline-details">
+                <li>Newlyweds arrive in Siem Reap</li>
+              </ul>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">22/04</div>
+              <ul class="timeline-details">
+                <li>Visit to Angkor Wat</li>
+              </ul>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">24/04</div>
+              <ul class="timeline-details">
+                <li>Newlyweds travel from Siem Reap to Phnom Penh</li>
+              </ul>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">25/04</div>
+              <ul class="timeline-details">
+                <li>Newlyweds depart from Techo International Airport to Manchester</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="filmstrip">
+          <div class="filmstrip-frame">
+            <img src="https://via.placeholder.com/600x400?text=Siem+Reap+arrival" alt="Siem Reap arrival">
+          </div>
+          <div class="filmstrip-frame">
+            <img src="https://via.placeholder.com/600x400?text=Angkor+Wat+visit" alt="Angkor Wat visit">
+          </div>
+          <div class="filmstrip-frame">
+            <img src="https://via.placeholder.com/600x400?text=Back+to+Phnom+Penh" alt="Back to Phnom Penh">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Khmer traditions -->
+  <section id="traditions">
+    <div class="container">
+      <div class="section-title">Khmer wedding traditions</div>
+      <div class="section-subtitle">A glimpse into our ceremonies</div>
+
+      <div class="traditions-grid">
+        <div class="tradition-card">
+          <div class="tradition-image">
+            <!-- Placeholder: replace with real photo -->
+            Photo placeholder
+          </div>
+          <h4>Hair cutting ceremony</h4>
+          <p>
+            A symbolic “cutting away” of the past, where family and friends bless the couple with wishes for a new life together.
+          </p>
+        </div>
+        <div class="tradition-card">
+          <div class="tradition-image">
+            Photo placeholder
+          </div>
+          <h4>Thread tying &amp; blessings</h4>
+          <p>
+            Guests tie red and white threads around our wrists, offering prayers and blessings for health, happiness, and prosperity.
+          </p>
+        </div>
+        <div class="tradition-card">
+          <div class="tradition-image">
+            Photo placeholder
+          </div>
+          <h4>Offering to ancestors</h4>
+          <p>
+            We honour our ancestors and families, thanking them for guiding us to this moment and asking for their continued protection.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gifts & bank details -->
+  <section id="gifts">
+    <div class="container">
+      <div class="section-title">Gifts &amp; blessings</div>
+      <div class="section-subtitle">Your presence is the greatest gift</div>
+
+      <div class="split-two">
+        <div class="gift-card">
+          <h3>Experience gifts</h3>
+          <p>
+            We are planning to set up an experience-based gift list (for example: travel, food, and adventures together).
+          </p>
+          <p>
+            Once it is ready, we will add a link here so you can choose an experience to gift us instead of a physical present.
+          </p>
+          <p style="font-size:13px;margin-top:6px;">
+            For now, this is a placeholder section — please check back closer to the wedding date.
+          </p>
+        </div>
+        <div class="gift-card">
+          <h3>Bank transfer details</h3>
+          <p>
+            If you would prefer to give a monetary gift, you can use the bank details below.
+          </p>
+          <div class="bank-details">
+            <!-- Edit these details as needed -->
+            Bank name: YOUR BANK NAME<br>
+            Account holder: YOUR NAME(S)<br>
+            IBAN: XX00 0000 0000 0000 0000 0000<br>
+            BIC / SWIFT: XXXXXXXX<br>
+            Reference: “Wedding gift”
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo gallery upload link -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-title">Share your photos</div>
+      <div class="section-subtitle">Help us remember every moment</div>
+
+      <div class="gallery-card">
+        <p>
+          During the wedding and the party, you’ll see a QR code that links to our shared photo gallery.
+        </p>
+        <p>
+          After the celebrations, please upload your favourite photos and videos so we can relive the day through your eyes.
+        </p>
+        <a
+          class="gallery-button"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer">
+          Upload your photos
+        </a>
+        <p style="margin-top:10px;font-size:12px;color:#8a6a5a;">
+          (This button will link to our chosen cloud gallery service.)
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP anchor (placeholder) -->
+  <section id="rsvp">
+    <div class="container">
+      <div class="section-title">RSVP</div>
+      <div class="section-subtitle">Let us know you’re coming</div>
+      <div class="gallery-card">
+        <p>
+          We will add an RSVP form or link here so you can confirm your attendance and share any important details (dietary needs, travel plans, etc.).
+        </p>
+        <p style="margin-top:8px;font-size:13px;">
+          For now, please contact us directly if you already know you will be joining us.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    Ratha &amp; Michal · 18–25 April 2026 · Cambodia<br>
+    Built with love for our family and friends.
+  </footer>
+
+  <script>
+    // Countdown: months / weeks / days until 18 April 2026
+    function updateCountdown() {
+      const target = new Date("2026-04-18T00:00:00");
+      const now = new Date();
+      let diff = target - now;
+
+      const el = document.getElementById("countdown");
+      if (!el) return;
+
+      if (diff <= 0) {
+        el.textContent = "It's time!";
+        return;
+      }
+
+      const daysTotal = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const months = Math.floor(daysTotal / 30.437);
+      const weeks = Math.floor((daysTotal % 30.437) / 7);
+      const days = Math.floor((daysTotal % 30.437) % 7);
+
+      el.textContent =
+        months + " months " +
+        weeks + " weeks " +
+        days + " days";
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000 * 60 * 60);
+  </script>
+</body>
+
+</html>
