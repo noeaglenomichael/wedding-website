@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <title>Ratha & Michal Wedding</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Playfair+Display:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <style>
     :root {
       --bg: #f7f0e8;
@@ -14,6 +16,7 @@
       --accent-soft: #e3b9a7;
       --border-soft: #e0cbb8;
       --white: #ffffff;
+      --font-heading: 'Cormorant Garamond', serif;
     }
 
     * {
@@ -215,7 +218,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 40px;
-      align-items: stretch; /* both children stretch to same height */
+      grid-template-rows: 420px; /* single explicit row height — both columns obey it */
     }
 
     .wedding-card {
@@ -227,11 +230,14 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-height: 380px;
+      height: 100%; /* fill the grid row exactly */
     }
 
     .wedding-card h3 {
-      font-size: 22px;
+      font-size: 24px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      letter-spacing: 0.02em;
       margin-bottom: 10px;
     }
 
@@ -245,25 +251,93 @@
       overflow: hidden;
       border: 1px solid var(--border-soft);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-      min-height: 380px;
+      height: 100%; /* fill the grid row exactly */
+      position: relative;
     }
 
-    .wedding-map iframe {
+    #leaflet-map {
       width: 100%;
       height: 100%;
-      min-height: 380px;
-      border: 0;
-      display: block;
+    }
+
+    /* Warm sepia filter over the OSM tiles to match site palette */
+    .leaflet-tile {
+      filter: sepia(40%) saturate(80%) hue-rotate(10deg) brightness(1.05);
+    }
+
+    /* Themed popup */
+    .leaflet-popup-content-wrapper {
+      border-radius: 14px !important;
+      background: var(--bg) !important;
+      border: 1px solid var(--border-soft) !important;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10) !important;
+      font-family: 'Playfair Display', serif !important;
+      color: var(--text) !important;
+    }
+
+    .leaflet-popup-tip {
+      background: var(--bg) !important;
+    }
+
+    .map-popup-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 18px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .map-popup-body {
+      font-size: 13px;
+      color: var(--text);
     }
 
     /* ── end wedding section ── */
 
-    .two-col {
+    /* ── Party section map ── */
+    .party-grid {
       display: grid;
-      grid-template-columns: 1.1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 40px;
-      align-items: center;
+      align-items: stretch;
+      grid-template-rows: auto;
     }
+
+    .party-left {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .party-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .party-map {
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      height: 260px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    #leaflet-map-party {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* tradition card images */
+    .tradition-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 14px;
+    }
+
+    /* ── end party section ── */
 
     .card {
       background: var(--white);
@@ -275,6 +349,9 @@
 
     .card h3 {
       font-size: 22px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      letter-spacing: 0.02em;
       margin-bottom: 10px;
     }
 
@@ -310,55 +387,122 @@
       border: 0;
     }
 
-    .timeline {
+    /* ── Decorative timeline ── */
+    .dec-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      max-width: 560px;
+    }
+
+    .dec-timeline::before {
+      content: "";
+      position: absolute;
+      left: 44px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-soft), var(--border-soft));
+      z-index: 0;
+    }
+
+    .dec-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Coloured circle badge */
+    .dec-badge {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Dancing Script', cursive;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      border: 3px solid rgba(255,255,255,0.5);
+      line-height: 1.1;
+    }
+
+    .dec-badge .badge-day   { font-size: 26px; font-weight: 700; }
+    .dec-badge .badge-month { font-size: 13px; letter-spacing: 0.12em; opacity: 0.9; }
+
+    /* Envelope/card connector */
+    .dec-connector {
+      display: flex;
+      align-items: center;
+      padding-top: 22px;
+    }
+
+    .dec-arrow {
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right: 12px solid var(--bg-alt);
+      flex-shrink: 0;
+    }
+
+    .dec-content {
+      background: var(--bg-alt);
+      border-radius: 0 16px 16px 16px;
+      padding: 14px 18px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+      flex: 1;
+    }
+
+    .dec-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .dec-content ul li {
+      font-size: 14px;
+      padding: 3px 0;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .dec-content ul li::before {
+      content: "·";
+      position: absolute;
+      left: 6px;
+      color: var(--accent);
+      font-size: 18px;
+      line-height: 1;
+      top: 2px;
+    }
+
+    /* Badge colour palette — matches reference image */
+    .badge-peach  { background: #e8a87c; }
+    .badge-rose   { background: #c97a8a; }
+    .badge-mauve  { background: #b5758a; }
+    .badge-sage   { background: #8a9e7a; }
+    .badge-blush  { background: #d4847a; }
+    .badge-dusty  { background: #9e8ab5; }
+
+    /* timeline section layout: timeline left, filmstrip right */
+    .timeline-section {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 40px;
       align-items: flex-start;
     }
 
-    .timeline-list {
-      position: relative;
-      padding-left: 26px;
-    }
-
-    .timeline-list::before {
-      content: "";
-      position: absolute;
-      left: 10px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: var(--accent-soft);
-    }
-
-    .timeline-item {
-      margin-bottom: 26px;
-      position: relative;
-    }
-
-    .timeline-dot {
-      position: absolute;
-      left: -2px;
-      top: 4px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: 3px solid var(--bg);
-    }
-
-    .timeline-date {
-      font-weight: 600;
-      margin-bottom: 4px;
-      font-size: 15px;
-    }
-
-    .timeline-details li {
-      font-size: 14px;
-      margin-left: 18px;
-      margin-bottom: 2px;
-    }
+    /* ── end decorative timeline ── */
 
     .filmstrip {
       display: grid;
@@ -473,15 +617,20 @@
       .hero-grid,
       .two-col,
       .wedding-grid,
-      .timeline,
+      .party-grid,
+      .timeline-section,
       .traditions-grid,
       .split-two {
         grid-template-columns: 1fr;
+        grid-template-rows: auto;
       }
 
-      .wedding-map,
-      .wedding-map iframe {
-        min-height: 300px;
+      .dec-timeline {
+        max-width: 100%;
+      }
+
+      .wedding-map {
+        height: 300px;
       }
 
       header,
@@ -549,7 +698,7 @@
         <div class="hero-countdown-label">Countdown to our wedding</div>
         <div id="countdown" class="countdown">Loading…</div>
 
-        <a href="#rsvp" class="hero-cta">Click to RSVP</a>
+        <a href="https://docs.google.com/spreadsheets/d/1hdKXDbV8ni6Ax_rsYlFAPNvtD6GUa5-NJ-rRNeXAekc/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" class="hero-cta">Click to RSVP</a>
       </div>
       <div class="hero-image">
         <img src="images/we_angkor_sketch.png" alt="Ratha and Michal at Angkor Wat">
@@ -597,14 +746,9 @@ that home is not a place but a person.
           </p>
         </div>
 
-        <!-- Map with destination pin using q= parameter at exact coordinates -->
+        <!-- OpenStreetMap via Leaflet — themed to match site palette -->
         <div class="wedding-map">
-          <iframe
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=11.492493,104.513518&zoom=15"
-            allowfullscreen
-            loading="lazy"
-            referrerpolicy="origin">
-          </iframe>
+          <div id="leaflet-map"></div>
         </div>
       </div>
     </div>
@@ -616,8 +760,8 @@ that home is not a place but a person.
       <div class="section-title">…and our mostest special party</div>
       <div class="section-subtitle">Siem Reap celebration</div>
 
-      <div class="two-col">
-        <div class="filmstrip">
+      <div class="party-grid">
+        <div class="party-left">
           <div class="filmstrip-frame">
             <img src="images/we_smile_puerto2.jpg" alt="Couple photo">
           </div>
@@ -628,61 +772,98 @@ that home is not a place but a person.
             <img src="https://via.placeholder.com/600x400?text=Isann+Lodge" alt="Isann Lodge">
           </div>
         </div>
-        <div class="card">
-          <span class="tag">Party</span>
-          <h3>Our mostest special party</h3>
-          <p><strong>20–24 April 2026</strong></p>
-          <p>Isann Lodge, Isann Road, Siem Reap, Cambodia</p>
-          <p style="margin-top:10px;font-size:14px;">
-            After the wedding, we'll continue the celebrations in Siem Reap with good food, music, and time together.
-          </p>
+        <div class="party-right">
+          <div class="card">
+            <span class="tag">Party</span>
+            <h3>Our mostest special party</h3>
+            <p><strong>20–24 April 2026</strong></p>
+            <p>Isann Lodge, Isann Road, Siem Reap, Cambodia</p>
+            <p style="margin-top:10px;font-size:14px;">
+              After the wedding, we'll continue the celebrations in Siem Reap with good food, music, and time together.
+            </p>
+          </div>
+          <!-- Leaflet map for Isann Lodge, Siem Reap -->
+          <div class="party-map">
+            <div id="leaflet-map-party"></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Wedding itinerary -->
+  <!-- Wedding ceremony itinerary -->
   <section id="itinerary">
     <div class="container">
-      <div class="section-title">Wedding itinerary</div>
-      <div class="section-subtitle">Chbar Mon &amp; Siem Reap</div>
+      <div class="section-title">Wedding ceremony</div>
+      <div class="section-subtitle">Chbar Mon</div>
 
-      <div class="timeline">
-        <div>
-          <div class="timeline-list">
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-date">17/04</div>
-              <ul class="timeline-details">
-                <li>Guests travel from Phnom Penh to Chbar Mon</li>
-                <li>Transport will be provided</li>
-                <li>Accommodation will be arranged</li>
-              </ul>
+      <div class="timeline-section">
+        <div class="dec-timeline">
+
+          <div class="dec-item">
+            <div class="dec-badge badge-peach">
+              <span class="badge-day">17</span>
+              <span class="badge-month">APR</span>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-date">18/04</div>
-              <ul class="timeline-details">
-                <li>Wedding day</li>
-              </ul>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-date">19/04</div>
-              <ul class="timeline-details">
-                <li>Rest day</li>
-              </ul>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-date">20/04</div>
-              <ul class="timeline-details">
-                <li>Guests travel from Chbar Mon to Siem Reap</li>
-                <li>Transport will be provided</li>
-                <li>Hotel will be arranged</li>
-              </ul>
+            <div class="dec-connector">
+              <div class="dec-arrow"></div>
+              <div class="dec-content">
+                <ul>
+                  <li>Guests travel from Phnom Penh to Chbar Mon</li>
+                  <li>Transport will be provided</li>
+                  <li>Accommodation will be arranged</li>
+                </ul>
+              </div>
             </div>
           </div>
+
+          <div class="dec-item">
+            <div class="dec-badge badge-rose">
+              <span class="badge-day">18</span>
+              <span class="badge-month">APR</span>
+            </div>
+            <div class="dec-connector">
+              <div class="dec-arrow"></div>
+              <div class="dec-content">
+                <ul>
+                  <li>Wedding day 💍</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="dec-item">
+            <div class="dec-badge badge-mauve">
+              <span class="badge-day">19</span>
+              <span class="badge-month">APR</span>
+            </div>
+            <div class="dec-connector">
+              <div class="dec-arrow"></div>
+              <div class="dec-content">
+                <ul>
+                  <li>Rest day ☀️</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="dec-item">
+            <div class="dec-badge badge-sage">
+              <span class="badge-day">20</span>
+              <span class="badge-month">APR</span>
+            </div>
+            <div class="dec-connector">
+              <div class="dec-arrow"></div>
+              <div class="dec-content">
+                <ul>
+                  <li>Guests travel from Chbar Mon to Siem Reap</li>
+                  <li>Transport will be provided</li>
+                  <li>Hotel will be arranged</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
         </div>
         <div class="filmstrip">
           <div class="filmstrip-frame">
@@ -699,44 +880,76 @@ that home is not a place but a person.
     </div>
   </section>
 
-  <!-- Honeymoon itinerary -->
+  <!-- Afterparty / Siem Reap -->
   <section>
     <div class="container">
-      <div class="section-title">Honeymoon journey</div>
-      <div class="section-subtitle">After the celebrations</div>
+      <div class="section-title">Afterparty</div>
+      <div class="section-subtitle">Siem Reap</div>
 
-      <div class="timeline">
-        <div>
-          <div class="timeline-list">
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-date">21/04</div>
-              <ul class="timeline-details">
-                <li>Newlyweds arrive in Siem Reap</li>
-              </ul>
+      <div class="timeline-section">
+        <div class="dec-timeline">
+
+          <div class="dec-item">
+            <div class="dec-badge badge-blush">
+              <span class="badge-day">21</span>
+              <span class="badge-month">APR</span>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-date">22/04</div>
-              <ul class="timeline-details">
-                <li>Visit to Angkor Wat</li>
-              </ul>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-date">24/04</div>
-              <ul class="timeline-details">
-                <li>Newlyweds travel from Siem Reap to Phnom Penh</li>
-              </ul>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-date">25/04</div>
-              <ul class="timeline-details">
-                <li>Newlyweds depart from Techo International Airport to Manchester</li>
-              </ul>
+            <div class="dec-connector">
+              <div class="dec-arrow"></div>
+              <div class="dec-content">
+                <ul>
+                  <li>Newlyweds arrive in Siem Reap 🎉</li>
+                </ul>
+              </div>
             </div>
           </div>
+
+          <div class="dec-item">
+            <div class="dec-badge badge-rose">
+              <span class="badge-day">22</span>
+              <span class="badge-month">APR</span>
+            </div>
+            <div class="dec-connector">
+              <div class="dec-arrow"></div>
+              <div class="dec-content">
+                <ul>
+                  <li>Visit to Angkor Wat 🛕</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="dec-item">
+            <div class="dec-badge badge-dusty">
+              <span class="badge-day">24</span>
+              <span class="badge-month">APR</span>
+            </div>
+            <div class="dec-connector">
+              <div class="dec-arrow"></div>
+              <div class="dec-content">
+                <ul>
+                  <li>Newlyweds travel from Siem Reap to Phnom Penh</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="dec-item">
+            <div class="dec-badge badge-sage">
+              <span class="badge-day">25</span>
+              <span class="badge-month">APR</span>
+            </div>
+            <div class="dec-connector">
+              <div class="dec-arrow"></div>
+              <div class="dec-content">
+                <ul>
+                  <li>Depart from Techo International Airport ✈️</li>
+                  <li>Homeward bound to Manchester</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
         </div>
         <div class="filmstrip">
           <div class="filmstrip-frame">
@@ -761,19 +974,49 @@ that home is not a place but a person.
 
       <div class="traditions-grid">
         <div class="tradition-card">
-          <div class="tradition-image">Photo placeholder</div>
+          <div class="tradition-image">
+            <!-- Free photo: Cambodian couple in traditional attire — Pexels / HANUMAN PHOTO STUDIO (free to use) -->
+            <!-- Replace with your own photo; suggested search: "Khmer hair cutting ceremony gaat sah" -->
+            <img
+              src="https://images.pexels.com/photos/19126431/pexels-photo-19126431.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1"
+              alt="Cambodian couple in traditional wedding attire — placeholder for hair cutting ceremony"
+              loading="lazy">
+          </div>
           <h4>Hair cutting ceremony</h4>
-          <p>A symbolic "cutting away" of the past, where family and friends bless the couple with wishes for a new life together.</p>
+          <p>
+            A symbolic "cutting away" of the past, where family and friends bless the couple with wishes for a new life together.
+          </p>
+          <p style="font-size:11px;color:#a07060;margin-top:6px;">📷 Placeholder photo · replace with your own</p>
         </div>
         <div class="tradition-card">
-          <div class="tradition-image">Photo placeholder</div>
+          <div class="tradition-image">
+            <!-- Free photo: Cambodian wedding couple — Pexels / HANUMAN PHOTO STUDIO (free to use) -->
+            <!-- Replace with your own photo; suggested search: "Sompeas Ptem knot tying wrist string Cambodia" -->
+            <img
+              src="https://images.pexels.com/photos/19126435/pexels-photo-19126435.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1"
+              alt="Cambodian wedding couple walking — placeholder for thread tying ceremony"
+              loading="lazy">
+          </div>
           <h4>Thread tying &amp; blessings</h4>
-          <p>Guests tie red and white threads around our wrists, offering prayers and blessings for health, happiness, and prosperity.</p>
+          <p>
+            Guests tie red and white threads around our wrists, offering prayers and blessings for health, happiness, and prosperity.
+          </p>
+          <p style="font-size:11px;color:#a07060;margin-top:6px;">📷 Placeholder photo · replace with your own</p>
         </div>
         <div class="tradition-card">
-          <div class="tradition-image">Photo placeholder</div>
+          <div class="tradition-image">
+            <!-- Free photo: Khmer bride with bouquet — Pexels / HANUMAN PHOTO STUDIO (free to use) -->
+            <!-- Replace with your own photo; suggested search: "Sien Doan Taa ancestor offering Cambodia incense altar" -->
+            <img
+              src="https://images.pexels.com/photos/19126426/pexels-photo-19126426.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1"
+              alt="Khmer bride in traditional dress — placeholder for ancestor offering ceremony"
+              loading="lazy">
+          </div>
           <h4>Offering to ancestors</h4>
-          <p>We honour our ancestors and families, thanking them for guiding us to this moment and asking for their continued protection.</p>
+          <p>
+            We honour our ancestors and families, thanking them for guiding us to this moment and asking for their continued protection.
+          </p>
+          <p style="font-size:11px;color:#a07060;margin-top:6px;">📷 Placeholder photo · replace with your own</p>
         </div>
       </div>
     </div>
@@ -822,18 +1065,6 @@ that home is not a place but a person.
     </div>
   </section>
 
-  <!-- RSVP -->
-  <section id="rsvp">
-    <div class="container">
-      <div class="section-title">RSVP</div>
-      <div class="section-subtitle">Let us know you're coming</div>
-      <div class="gallery-card">
-        <p>We will add an RSVP form or link here so you can confirm your attendance and share any important details (dietary needs, travel plans, etc.).</p>
-        <p style="margin-top:8px;font-size:13px;">For now, please contact us directly if you already know you will be joining us.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- Footer -->
   <footer>
     Ratha &amp; Michal · 18–25 April 2026 · Cambodia<br>
@@ -868,5 +1099,64 @@ that home is not a place but a person.
     updateCountdown();
     setInterval(updateCountdown, 1000 * 60 * 60);
   </script>
+  <script>
+    // ── Leaflet / OpenStreetMap — Wedding venue ──
+    const weddingLat  = 11.492493;
+    const weddingLng  = 104.513518;
+
+    const map = L.map('leaflet-map', {
+      center: [weddingLat, weddingLng],
+      zoom: 15,
+      scrollWheelZoom: false,
+      zoomControl: true
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    const pinIcon = L.divIcon({
+      className: '',
+      html: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="48" viewBox="0 0 36 48">
+          <path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 30 18 30S36 31.5 36 18C36 8.06 27.94 0 18 0z"
+                fill="#c58b7b" stroke="#fff" stroke-width="2"/>
+          <circle cx="18" cy="18" r="7" fill="#fff" opacity="0.9"/>
+        </svg>`,
+      iconSize:   [36, 48],
+      iconAnchor: [18, 48],
+      popupAnchor:[0, -50]
+    });
+
+    const marker = L.marker([weddingLat, weddingLng], { icon: pinIcon }).addTo(map);
+    marker.bindPopup(`
+      <div class="map-popup-title">Ratha &amp; Michal's Wedding</div>
+      <div class="map-popup-body">Rokar Thum, Chbar Mon<br>Kampong Speu, Cambodia<br><strong>18–20 April 2026</strong></div>
+    `, { maxWidth: 220 }).openPopup();
+
+    // ── Leaflet / OpenStreetMap — Isann Lodge, Siem Reap ──
+    const partyLat = 13.3692526;
+    const partyLng = 103.8975037;
+
+    const mapParty = L.map('leaflet-map-party', {
+      center: [partyLat, partyLng],
+      zoom: 15,
+      scrollWheelZoom: false,
+      zoomControl: true
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(mapParty);
+
+    const partyMarker = L.marker([partyLat, partyLng], { icon: pinIcon }).addTo(mapParty);
+    partyMarker.bindPopup(`
+      <div class="map-popup-title">Isann Lodge</div>
+      <div class="map-popup-body">Isann Road, Siem Reap<br>Cambodia<br><strong>20–24 April 2026</strong></div>
+    `, { maxWidth: 220 }).openPopup();
+  </script>
+
 </body>
 </html>
