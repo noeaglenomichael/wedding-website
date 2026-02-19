@@ -321,8 +321,20 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      /* override the overflow:hidden so card styles show properly */
       border-radius: 24px;
+    }
+
+    .party-card-cell h3 {
+      font-size: 22px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 10px;
+    }
+
+    .party-card-cell p {
+      font-size: 15px;
+      margin-bottom: 6px;
     }
 
     /* map cell needs position:relative for Leaflet */
@@ -443,12 +455,12 @@
       height: 0;
       border-top: 10px solid transparent;
       border-bottom: 10px solid transparent;
-      border-right: 12px solid var(--bg-alt);
+      border-right: 12px solid var(--white);
       flex-shrink: 0;
     }
 
     .dec-content {
-      background: var(--bg-alt);
+      background: var(--white);
       border-radius: 0 16px 16px 16px;
       padding: 14px 18px;
       border: 1px solid var(--border-soft);
@@ -580,6 +592,23 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 30px;
+    }
+
+    .directions-btn {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--white);
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      align-self: flex-start;
+    }
+
+    .directions-btn:hover {
+      background: #b37a6a;
     }
 
     .gift-card {
@@ -724,7 +753,7 @@
       <div class="hero-text">
         <h2>We are getting married</h2>
         <h1>Ratha &amp; Michal</h1>
-        <p class="hero-date">18th April 2026 · Rokar Thum, Chbar Mon, Kampong Speu, Cambodia</p>
+        <p class="hero-date">18–20 April 2026 · Rokar Thum, Chbar Mon, Kampong Speu, Cambodia</p>
 
         <div class="hero-countdown-label">Countdown to our wedding</div>
         <div id="countdown" class="countdown">Loading…</div>
@@ -770,11 +799,13 @@ that home is not a place but a person.
         <div class="wedding-card">
           <span class="tag">Wedding</span>
           <h3>You're invited to our most special day</h3>
-          <p><strong>18–20 April 2026</strong></p>
+          <p><strong>18th April 2026</strong></p>
           <p>Rokar Thum, Chbar Mon, Kampong Speu, Cambodia</p>
           <p style="margin-top:10px;font-size:14px;">
             We would be honoured to have you with us as we celebrate our Khmer and Western wedding ceremonies with family and friends.
           </p>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=11.492493,104.513518"
+             target="_blank" rel="noopener noreferrer" class="directions-btn">Directions</a>
         </div>
 
         <!-- OpenStreetMap via Leaflet — themed to match site palette -->
@@ -799,15 +830,15 @@ that home is not a place but a person.
 
         <!-- Top right: party info card -->
         <div class="party-cell party-card-cell">
-          <div class="card" style="height:100%;display:flex;flex-direction:column;justify-content:center;">
-            <span class="tag">Party</span>
-            <h3>Our mostest special party</h3>
-            <p><strong>20–24 April 2026</strong></p>
-            <p>Isann Lodge, Isann Road, Siem Reap, Cambodia</p>
-            <p style="margin-top:10px;font-size:14px;">
-              After the wedding, we'll continue the celebrations in Siem Reap with good food, music, and time together.
-            </p>
-          </div>
+          <span class="tag">Party</span>
+          <h3>Our mostest special party</h3>
+          <p><strong>20–24 April 2026</strong></p>
+          <p>Isann Lodge, Isann Road, Siem Reap, Cambodia</p>
+          <p style="margin-top:10px;font-size:14px;">
+            After the wedding, we'll continue the celebrations in Siem Reap with good food, music, and time together.
+          </p>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=13.3692526,103.8975037"
+             target="_blank" rel="noopener noreferrer" class="directions-btn">Directions</a>
         </div>
 
         <!-- Bottom left: Isann Lodge map -->
@@ -902,13 +933,13 @@ that home is not a place but a person.
         <!-- Three landscape photos stacked, constrained to timeline height -->
         <div class="itinerary-photos">
           <div class="itinerary-photo-frame">
-            <img src="images/we_funny_forest2.jpg" alt="Ratha and Michal in the forest">
+            <img src="images/we_funny_forest.jpg" alt="Ratha and Michal in the forest">
           </div>
           <div class="itinerary-photo-frame">
-            <img src="images/we_funny_bytow2.jpg" alt="Ratha and Michal in Bytów">
+            <img src="images/we_funny_bytow.jpg" alt="Ratha and Michal in Bytów">
           </div>
           <div class="itinerary-photo-frame">
-            <img src="images/we_funny_restaurant2.jpg" alt="Ratha and Michal at a restaurant">
+            <img src="images/we_funny_restaurant.jpg" alt="Ratha and Michal at a restaurant">
           </div>
         </div>
       </div>
@@ -1196,4 +1227,3 @@ that home is not a place but a person.
 
 </body>
 </html>
-
