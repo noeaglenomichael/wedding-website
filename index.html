@@ -497,6 +497,27 @@
 
     /* ── end decorative timeline ── */
 
+    .itinerary-photos {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .itinerary-photo-frame {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+      flex: 1;
+    }
+
+    .itinerary-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .filmstrip {
       display: grid;
       gap: 14px;
@@ -871,18 +892,18 @@ that home is not a place but a person.
           </div>
 
         </div>
-        <div class="filmstrip">
-          <div class="filmstrip-frame">
-            <img src="https://via.placeholder.com/600x400?text=Travel+to+Chbar+Mon" alt="Travel">
+
+        <!-- Two portrait photos stacked -->
+        <div class="itinerary-photos">
+          <div class="itinerary-photo-frame">
+            <img src="images/ratha_green.jpg" alt="Ratha in the garden">
           </div>
-          <div class="filmstrip-frame">
-            <img src="https://via.placeholder.com/600x400?text=Wedding+day" alt="Wedding day">
-          </div>
-          <div class="filmstrip-frame">
-            <img src="https://via.placeholder.com/600x400?text=Travel+to+Siem+Reap" alt="Travel to Siem Reap">
+          <div class="itinerary-photo-frame">
+            <img src="images/michal_peace.jpg" alt="Michal in Phnom Penh">
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
