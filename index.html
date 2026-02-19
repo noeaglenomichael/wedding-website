@@ -293,48 +293,41 @@
 
     /* ── end wedding section ── */
 
-    /* ── Party section map ── */
-    .party-grid {
+    /* ── Party section 2x2 grid ── */
+    .party-2x2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: stretch;
-      grid-template-rows: auto;
-    }
-
-    .party-left {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .party-right {
-      display: flex;
-      flex-direction: column;
+      grid-template-rows: 380px 380px;
       gap: 20px;
     }
 
-    .party-map {
+    .party-cell {
       border-radius: 24px;
       overflow: hidden;
       border: 1px solid var(--border-soft);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-      height: 260px;
-      position: relative;
-      flex-shrink: 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
     }
 
-    #leaflet-map-party {
-      width: 100%;
-      height: 100%;
-    }
-
-    /* tradition card images */
-    .tradition-image img {
+    .party-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 14px;
+      display: block;
+    }
+
+    .party-card-cell {
+      padding: 32px 28px;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* override the overflow:hidden so card styles show properly */
+      border-radius: 24px;
+    }
+
+    /* map cell needs position:relative for Leaflet */
+    .party-map-cell {
+      position: relative;
     }
 
     /* ── end party section ── */
@@ -549,6 +542,13 @@
       color: #8a6a5a;
     }
 
+    .tradition-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 14px;
+    }
+
     .split-two {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -617,12 +617,16 @@
       .hero-grid,
       .two-col,
       .wedding-grid,
-      .party-grid,
+      .party-2x2,
       .timeline-section,
       .traditions-grid,
       .split-two {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
+      }
+
+      .party-2x2 {
+        grid-template-rows: 300px auto 300px 300px;
       }
 
       .dec-timeline {
@@ -701,7 +705,7 @@
         <a href="https://docs.google.com/spreadsheets/d/1hdKXDbV8ni6Ax_rsYlFAPNvtD6GUa5-NJ-rRNeXAekc/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" class="hero-cta">Click to RSVP</a>
       </div>
       <div class="hero-image">
-        <img src="images/we_angkor.jpg" alt="Ratha and Michal at Angkor Wat">
+        <img src="images/we_angkor_sketch.png" alt="Ratha and Michal at Angkor Wat">
       </div>
     </div>
   </header>
@@ -760,20 +764,15 @@ that home is not a place but a person.
       <div class="section-title">…and our mostest special party</div>
       <div class="section-subtitle">Siem Reap celebration</div>
 
-      <div class="party-grid">
-        <div class="party-left">
-          <div class="filmstrip-frame">
-            <img src="images/we_smile_puerto2.jpg" alt="Couple photo">
-          </div>
-          <div class="filmstrip-frame">
-            <img src="https://via.placeholder.com/600x400?text=Angkor+Wat+sunset" alt="Angkor Wat sunset">
-          </div>
-          <div class="filmstrip-frame">
-            <img src="https://via.placeholder.com/600x400?text=Isann+Lodge" alt="Isann Lodge">
-          </div>
+      <div class="party-2x2">
+        <!-- Top left: blue sky photo -->
+        <div class="party-cell party-img">
+          <img src="images/we_smile_puerto2.jpg" alt="Ratha and Michal">
         </div>
-        <div class="party-right">
-          <div class="card">
+
+        <!-- Top right: party info card -->
+        <div class="party-cell party-card-cell">
+          <div class="card" style="height:100%;display:flex;flex-direction:column;justify-content:center;">
             <span class="tag">Party</span>
             <h3>Our mostest special party</h3>
             <p><strong>20–24 April 2026</strong></p>
@@ -782,12 +781,19 @@ that home is not a place but a person.
               After the wedding, we'll continue the celebrations in Siem Reap with good food, music, and time together.
             </p>
           </div>
-          <!-- Leaflet map for Isann Lodge, Siem Reap -->
-          <div class="party-map">
-            <div id="leaflet-map-party"></div>
-          </div>
+        </div>
+
+        <!-- Bottom left: Isann Lodge map -->
+        <div class="party-cell party-map-cell">
+          <div id="leaflet-map-party" style="width:100%;height:100%;"></div>
+        </div>
+
+        <!-- Bottom right: Lidl hats photo -->
+        <div class="party-cell party-img">
+          <img src="images/we_lidl_hats.jpg" alt="Ratha and Michal in matching hats">
         </div>
       </div>
+
     </div>
   </section>
 
@@ -1160,5 +1166,3 @@ that home is not a place but a person.
 
 </body>
 </html>
-
-
