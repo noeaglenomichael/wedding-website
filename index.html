@@ -192,7 +192,7 @@
     .poem-card {
       max-width: 700px;
       margin: 0 auto;
-      background: var(--white);
+      background: var(--bg-alt);
       border-radius: 24px;
       padding: 40px 30px;
       border: 1px solid var(--border-soft);
@@ -212,23 +212,58 @@
       white-space: pre-line;
     }
 
-    /* ── Wedding placeholders ── */
-    .wedding-placeholder {
-      background: var(--bg-alt);
+    /* ── Wedding section: matched card + map ── */
+
+    .wedding-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      grid-template-rows: 420px; /* single explicit row height — both columns obey it */
+    }
+
+    .wedding-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px 28px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
+      height: 100%; /* fill the grid row exactly */
     }
 
-    .photo-placeholder-label {
-      font-family: 'Dancing Script', cursive;
-      font-size: 18px;
-      color: var(--accent);
-      text-align: center;
-      padding: 20px;
+    .wedding-card h3 {
+      font-size: 24px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 10px;
     }
 
-    /* ── end wedding placeholders ── */
+    .wedding-card p {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .wedding-map {
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      height: 100%; /* fill the grid row exactly */
+      position: relative;
+    }
+
+    #leaflet-map {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Warm sepia filter over the OSM tiles to match site palette */
+    .leaflet-tile {
+      filter: sepia(40%) saturate(80%) hue-rotate(10deg) brightness(1.05);
+    }
 
     /* Themed popup */
     .leaflet-popup-content-wrapper {
@@ -305,12 +340,6 @@
     /* map cell needs position:relative for Leaflet */
     .party-map-cell {
       position: relative;
-      overflow: hidden;
-    }
-
-    .party-map-cell > div {
-      width: 100%;
-      height: 100%;
     }
 
     /* ── end party section ── */
@@ -633,23 +662,39 @@
       text-transform: uppercase;
     }
 
-    /* ── Scroll wrapper ── */
+    /* ── Scroll snap ── */
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .scroll-wrapper {
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    /* Every top-level section snaps */
+    .scroll-wrapper > header,
+    .scroll-wrapper > section {
+      scroll-snap-align: start;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+
+    /* Nav: fixed so it floats above all snapping sections */
     .nav {
       position: fixed !important;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
     }
 
-    .scroll-wrapper > header,
-    .scroll-wrapper > section {
-      padding-top: 62px;
-    }
-    header.hero { padding-top: 80px !important; }
-
-    @media (max-width: 900px) {
-      .scroll-wrapper > header,
-      .scroll-wrapper > section { padding-top: 0; }
-      header.hero { padding-top: 66px !important; }
+    /* Push hero content below fixed nav */
+    header.hero {
+      padding-top: 100px !important;
     }
 
     /* ── Side dot navigation ── */
@@ -713,6 +758,7 @@
     @media (max-width: 900px) {
       .hero-grid,
       .two-col,
+      .wedding-grid,
       .party-2x2,
       .timeline-section,
       .traditions-grid,
@@ -722,11 +768,15 @@
       }
 
       .party-2x2 {
-        grid-template-rows: 260px auto 260px 260px;
+        grid-template-rows: 300px auto 300px 300px;
       }
 
       .dec-timeline {
         max-width: 100%;
+      }
+
+      .wedding-map {
+        height: 300px;
       }
 
       header,
@@ -758,16 +808,6 @@
       .nav-toggle {
         display: block;
       }
-
-      .itinerary-photos {
-        flex-direction: row;
-        height: 200px;
-      }
-
-      .party-card-cell {
-        min-height: auto;
-        padding: 22px 18px;
-      }
     }
   </style>
 </head>
@@ -785,6 +825,9 @@
     <div class="scroll-dot"        data-target="gifts"      data-label="Gifts"></div>
     <div class="scroll-dot"        data-target="gallery"    data-label="Photos"></div>
   </nav>
+
+  <!-- Scroll snap wrapper -->
+  <div class="scroll-wrapper" id="scrollWrapper">
 
   <!-- Navigation -->
   <nav class="nav">
@@ -832,6 +875,7 @@
       <div class="section-subtitle">Our story</div>
 
       <div class="poem-card">
+        <div class="poem-title">Two Worlds · One Home</div>
         <div class="poem-body">
 Fate did not announce itself loudly.
 It arrived beneath a Tenerife sky,
@@ -850,19 +894,13 @@ that home is not a place but a person.
   <!-- Main wedding invitation -->
   <section id="wedding">
     <div class="container">
-      <div class="section-title">You're invited to our most special day</div>
+      <div class="section-title">Our most special day</div>
       <div class="section-subtitle">Wedding in Chbar Mon</div>
 
-      <div class="party-2x2">
-        <!-- Top left: photo placeholder 1 -->
-        <div class="party-cell party-img wedding-placeholder" id="wedding-photo-1">
-          <div class="photo-placeholder-label">📷 Photo coming soon</div>
-        </div>
-
-        <!-- Top right: wedding info card -->
-        <div class="party-cell party-card-cell">
+      <div class="wedding-grid">
+        <div class="wedding-card">
           <span class="tag">Wedding</span>
-          <h3>Our most special day</h3>
+          <h3>You're invited to our most special day</h3>
           <p><strong>18th April 2026</strong></p>
           <p>Rokar Thum, Chbar Mon, Kampong Speu, Cambodia</p>
           <p style="margin-top:10px;font-size:14px;">
@@ -872,14 +910,9 @@ that home is not a place but a person.
              target="_blank" rel="noopener noreferrer" class="directions-btn">Directions</a>
         </div>
 
-        <!-- Bottom left: Leaflet map -->
-        <div class="party-cell party-map-cell">
-          <div id="leaflet-map" style="width:100%;height:100%;"></div>
-        </div>
-
-        <!-- Bottom right: photo placeholder 2 -->
-        <div class="party-cell party-img wedding-placeholder" id="wedding-photo-2">
-          <div class="photo-placeholder-label">📷 Photo coming soon</div>
+        <!-- OpenStreetMap via Leaflet — themed to match site palette -->
+        <div class="wedding-map">
+          <div id="leaflet-map"></div>
         </div>
       </div>
     </div>
@@ -1199,7 +1232,9 @@ that home is not a place but a person.
     </div>
   </section>
 
-  <!-- Footer -->
+  </div><!-- end .scroll-wrapper -->
+
+  <!-- Footer lives outside snap wrapper so it doesn't break snapping -->
   <footer style="display:none"></footer>
 
   <script>
@@ -1290,12 +1325,14 @@ that home is not a place but a person.
   </script>
 
   <script>
-    // ── Dot navigation ──
-    const dots = document.querySelectorAll('.scroll-dot');
-    const sectionIds = ['hero','poem','wedding','party','itinerary','afterparty','traditions','gifts','gallery'];
-    const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+    // ── Scroll dot navigation ──
+    const wrapper  = document.getElementById('scrollWrapper');
+    const dots     = document.querySelectorAll('.scroll-dot');
+    const sections = ['hero','poem','wedding','party','itinerary','afterparty','traditions','gifts','gallery']
+                       .map(id => document.getElementById(id))
+                       .filter(Boolean);
 
-    // Dot clicks → jump to section
+    // Click dot → smooth scroll to section within wrapper
     dots.forEach(dot => {
       dot.addEventListener('click', () => {
         const target = document.getElementById(dot.dataset.target);
@@ -1303,17 +1340,22 @@ that home is not a place but a person.
       });
     });
 
-    // Highlight active dot as user scrolls
+    // IntersectionObserver — highlight dot of most-visible section
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          dots.forEach(d => d.classList.toggle('active', d.dataset.target === entry.target.id));
+          const id = entry.target.id;
+          dots.forEach(d => d.classList.toggle('active', d.dataset.target === id));
         }
       });
-    }, { threshold: 0.3 });
+    }, {
+      root: wrapper,
+      threshold: 0.5   // section is >50% visible
+    });
+
     sections.forEach(s => observer.observe(s));
 
-    // Nav links
+    // Nav links also scroll within wrapper
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', e => {
         const href = link.getAttribute('href');
@@ -1321,6 +1363,7 @@ that home is not a place but a person.
           e.preventDefault();
           const target = document.getElementById(href.slice(1));
           if (target) target.scrollIntoView({ behavior: 'smooth' });
+          // close mobile menu if open
           document.querySelector('.nav-links').classList.remove('show');
         }
       });
