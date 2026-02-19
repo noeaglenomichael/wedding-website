@@ -500,21 +500,27 @@
     .itinerary-photos {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 14px;
+      /* Key: align-self stretches to the timeline height, overflow hidden clips any excess */
+      align-self: stretch;
+      overflow: hidden;
     }
 
     .itinerary-photo-frame {
-      border-radius: 20px;
+      border-radius: 16px;
       overflow: hidden;
       border: 1px solid var(--border-soft);
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      /* Each frame takes equal share of available height */
       flex: 1;
+      min-height: 0; /* critical — prevents flex children from overflowing */
     }
 
     .itinerary-photo-frame img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center top; /* keep faces in frame */
       display: block;
     }
 
@@ -893,13 +899,16 @@ that home is not a place but a person.
 
         </div>
 
-        <!-- Two portrait photos stacked -->
+        <!-- Three landscape photos stacked, constrained to timeline height -->
         <div class="itinerary-photos">
           <div class="itinerary-photo-frame">
-            <img src="images/ratha_green.jpg" alt="Ratha in the garden">
+            <img src="images/we_funny_forest2.jpg" alt="Ratha and Michal in the forest">
           </div>
           <div class="itinerary-photo-frame">
-            <img src="images/michal_peace.jpg" alt="Michal in Phnom Penh">
+            <img src="images/we_funny_bytow2.jpg" alt="Ratha and Michal in Bytów">
+          </div>
+          <div class="itinerary-photo-frame">
+            <img src="images/we_funny_restaurant2.jpg" alt="Ratha and Michal at a restaurant">
           </div>
         </div>
       </div>
