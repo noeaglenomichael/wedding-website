@@ -74,6 +74,8 @@
       font-family: 'Dancing Script', cursive;
       font-size: 26px;
       color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
     }
 
     .nav-links {
@@ -370,6 +372,7 @@
       gap: 0;
       position: relative;
       max-width: 560px;
+      margin: 0 auto;
     }
 
     .dec-timeline::before {
@@ -470,54 +473,24 @@
     .badge-blush  { background: #d4847a; }
     .badge-dusty  { background: #9e8ab5; }
 
-    /* timeline section layout: timeline left, filmstrip right */
-    .timeline-section {
+
+    /* ── Dual timeline layout ── */
+    .dual-timeline {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 40px;
-      align-items: flex-start;
+      align-items: start;
+    }
+
+    .timeline-col-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 26px;
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: 20px;
     }
 
     /* ── end decorative timeline ── */
-
-    .itinerary-photos {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      /* Key: align-self stretches to the timeline height, overflow hidden clips any excess */
-      align-self: stretch;
-      overflow: hidden;
-    }
-
-    .itinerary-photo-frame {
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border-soft);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-      /* Each frame takes equal share of available height */
-      flex: 1;
-      min-height: 0; /* critical — prevents flex children from overflowing */
-    }
-
-    .itinerary-photo-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top; /* keep faces in frame */
-      display: block;
-    }
-
-    .filmstrip {
-      display: grid;
-      gap: 14px;
-    }
-
-    .filmstrip-frame {
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid var(--border-soft);
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
-    }
 
     .traditions-grid {
       display: grid;
@@ -764,6 +737,11 @@
         height: 200px;
       }
 
+      .dual-timeline {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
       .party-card-cell {
         min-height: auto;
         padding: 22px 18px;
@@ -789,7 +767,7 @@
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-inner">
-      <div class="nav-brand">Ratha &amp; Michal</div>
+      <a href="#hero" class="nav-brand" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Ratha &amp; Michal</a>
       <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('show')">
         ☰
       </button>
@@ -812,7 +790,7 @@
       <div class="hero-text">
         <h2>We are getting married</h2>
         <h1>Ratha &amp; Michal</h1>
-        <p class="hero-date">18th April 2026 · Rokar Thum, Chbar Mon, Kampong Speu, Cambodia</p>
+        <p class="hero-date">18–20 April 2026 · Rokar Thum, Chbar Mon, Kampong Speu, Cambodia</p>
 
         <div class="hero-countdown-label">Countdown to our wedding</div>
         <div id="countdown" class="countdown">Loading…</div>
@@ -820,7 +798,7 @@
         <a href="https://docs.google.com/spreadsheets/d/1hdKXDbV8ni6Ax_rsYlFAPNvtD6GUa5-NJ-rRNeXAekc/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer" class="hero-cta">Click to RSVP</a>
       </div>
       <div class="hero-image">
-        <img src="images/we_garden.jpg" alt="Ratha and Michal">
+        <img src="images/we_garden.jpg" alt="Ratha and Michal in the garden">
       </div>
     </div>
   </header>
@@ -830,6 +808,7 @@
     <div class="container">
       <div class="section-title">Two Worlds, One Home</div>
       <div class="section-subtitle">Our story</div>
+
       <div class="poem-card">
         <div class="poem-body">
 Fate did not announce itself loudly.
@@ -854,9 +833,10 @@ that home is not a place but a person.
 
       <div class="party-2x2">
         <!-- Top left: photo placeholder 1 -->
-       <div class="hero-image">
-         <img src="images/we_mondulkiri.jpg" alt="Trip to Mondulkiri">
-       </div>
+        <div class="party-cell party-img wedding-placeholder" id="wedding-photo-1">
+          <div class="photo-placeholder-label">📷 Photo coming soon</div>
+        </div>
+
         <!-- Top right: wedding info card -->
         <div class="party-cell party-card-cell">
           <span class="tag">Wedding</span>
@@ -876,8 +856,8 @@ that home is not a place but a person.
         </div>
 
         <!-- Bottom right: photo placeholder 2 -->
-        <div class="hero-image">
-         <img src="images/we_busra_bench.jpg" alt="Will you always look at me like that?">
+        <div class="party-cell party-img wedding-placeholder" id="wedding-photo-2">
+          <div class="photo-placeholder-label">📷 Photo coming soon</div>
         </div>
       </div>
     </div>
@@ -890,9 +870,9 @@ that home is not a place but a person.
       <div class="section-subtitle">Siem Reap celebration</div>
 
       <div class="party-2x2">
-        <!-- Top left: pub photo -->
+        <!-- Top left: blue sky photo -->
         <div class="party-cell party-img">
-          <img src="images/we_pub.jpg" alt="Ratha and Michal">
+          <img src="images/we_pub.jpg" alt="Ratha and Michal at the pub">
         </div>
 
         <!-- Top right: party info card -->
@@ -922,153 +902,88 @@ that home is not a place but a person.
     </div>
   </section>
 
-  <!-- Wedding ceremony itinerary -->
+  <!-- Itinerary — both timelines side by side -->
   <section id="itinerary">
     <div class="container">
-      <div class="section-title">Wedding ceremony</div>
-      <div class="section-subtitle">Chbar Mon</div>
+      <div class="section-title">Wedding itinerary</div>
+      <div class="section-subtitle">Chbar Mon &amp; Siem Reap</div>
 
-      <div class="timeline-section">
-        <div class="dec-timeline">
+      <div class="dual-timeline">
 
-          <div class="dec-item">
-            <div class="dec-badge badge-peach">
-              <span class="badge-day">17</span>
-              <span class="badge-month">APR</span>
-            </div>
-            <div class="dec-connector">
-              <div class="dec-arrow"></div>
-              <div class="dec-content">
-                <ul>
+        <!-- Left: Ceremony -->
+        <div>
+          <div class="timeline-col-title">Chbar Mon</div>
+          <div class="dec-timeline">
+            <div class="dec-item">
+              <div class="dec-badge badge-peach"><span class="badge-day">17</span><span class="badge-month">APR</span></div>
+              <div class="dec-connector"><div class="dec-arrow"></div>
+                <div class="dec-content"><ul>
                   <li>Guests travel from Phnom Penh to Chbar Mon</li>
                   <li>Transport will be provided</li>
                   <li>Accommodation will be arranged</li>
-                </ul>
+                </ul></div>
               </div>
             </div>
-          </div>
-
-          <div class="dec-item">
-            <div class="dec-badge badge-rose">
-              <span class="badge-day">18</span>
-              <span class="badge-month">APR</span>
-            </div>
-            <div class="dec-connector">
-              <div class="dec-arrow"></div>
-              <div class="dec-content">
-                <ul>
-                  <li>Wedding day 💍</li>
-                </ul>
+            <div class="dec-item">
+              <div class="dec-badge badge-rose"><span class="badge-day">18</span><span class="badge-month">APR</span></div>
+              <div class="dec-connector"><div class="dec-arrow"></div>
+                <div class="dec-content"><ul><li>Wedding day 💍</li></ul></div>
               </div>
             </div>
-          </div>
-
-          <div class="dec-item">
-            <div class="dec-badge badge-mauve">
-              <span class="badge-day">19</span>
-              <span class="badge-month">APR</span>
-            </div>
-            <div class="dec-connector">
-              <div class="dec-arrow"></div>
-              <div class="dec-content">
-                <ul>
-                  <li>Rest day ☀️</li>
-                </ul>
+            <div class="dec-item">
+              <div class="dec-badge badge-mauve"><span class="badge-day">19</span><span class="badge-month">APR</span></div>
+              <div class="dec-connector"><div class="dec-arrow"></div>
+                <div class="dec-content"><ul><li>Rest day ☀️</li></ul></div>
               </div>
             </div>
-          </div>
-
-          <div class="dec-item">
-            <div class="dec-badge badge-sage">
-              <span class="badge-day">20</span>
-              <span class="badge-month">APR</span>
-            </div>
-            <div class="dec-connector">
-              <div class="dec-arrow"></div>
-              <div class="dec-content">
-                <ul>
+            <div class="dec-item">
+              <div class="dec-badge badge-sage"><span class="badge-day">20</span><span class="badge-month">APR</span></div>
+              <div class="dec-connector"><div class="dec-arrow"></div>
+                <div class="dec-content"><ul>
                   <li>Guests travel from Chbar Mon to Siem Reap</li>
                   <li>Transport will be provided</li>
                   <li>Hotel will be arranged</li>
-                </ul>
+                </ul></div>
               </div>
             </div>
           </div>
-
         </div>
-     
-    </div>
-  </section>
 
-  <!-- Afterparty / Siem Reap -->
-  <section id="afterparty">
-      <div class="section-subtitle">Siem Reap</div>
-
-      <div class="timeline-section">
-        <div class="dec-timeline">
-
-          <div class="dec-item">
-            <div class="dec-badge badge-blush">
-              <span class="badge-day">21</span>
-              <span class="badge-month">APR</span>
-            </div>
-            <div class="dec-connector">
-              <div class="dec-arrow"></div>
-              <div class="dec-content">
-                <ul>
-                  <li>Newlyweds arrive in Siem Reap 🎉</li>
-                </ul>
+        <!-- Right: Afterparty / Siem Reap -->
+        <div id="afterparty">
+          <div class="timeline-col-title">Siem Reap</div>
+          <div class="dec-timeline">
+            <div class="dec-item">
+              <div class="dec-badge badge-blush"><span class="badge-day">21</span><span class="badge-month">APR</span></div>
+              <div class="dec-connector"><div class="dec-arrow"></div>
+                <div class="dec-content"><ul><li>Newlyweds arrive in Siem Reap 🎉</li></ul></div>
               </div>
             </div>
-          </div>
-
-          <div class="dec-item">
-            <div class="dec-badge badge-rose">
-              <span class="badge-day">22</span>
-              <span class="badge-month">APR</span>
-            </div>
-            <div class="dec-connector">
-              <div class="dec-arrow"></div>
-              <div class="dec-content">
-                <ul>
-                  <li>Visit to Angkor Wat 🛕</li>
-                </ul>
+            <div class="dec-item">
+              <div class="dec-badge badge-rose"><span class="badge-day">22</span><span class="badge-month">APR</span></div>
+              <div class="dec-connector"><div class="dec-arrow"></div>
+                <div class="dec-content"><ul><li>Visit to Angkor Wat 🛕</li></ul></div>
               </div>
             </div>
-          </div>
-
-          <div class="dec-item">
-            <div class="dec-badge badge-dusty">
-              <span class="badge-day">24</span>
-              <span class="badge-month">APR</span>
-            </div>
-            <div class="dec-connector">
-              <div class="dec-arrow"></div>
-              <div class="dec-content">
-                <ul>
-                  <li>Newlyweds travel from Siem Reap to Phnom Penh</li>
-                </ul>
+            <div class="dec-item">
+              <div class="dec-badge badge-dusty"><span class="badge-day">24</span><span class="badge-month">APR</span></div>
+              <div class="dec-connector"><div class="dec-arrow"></div>
+                <div class="dec-content"><ul><li>Newlyweds travel from Siem Reap to Phnom Penh</li></ul></div>
               </div>
             </div>
-          </div>
-
-          <div class="dec-item">
-            <div class="dec-badge badge-sage">
-              <span class="badge-day">25</span>
-              <span class="badge-month">APR</span>
-            </div>
-            <div class="dec-connector">
-              <div class="dec-arrow"></div>
-              <div class="dec-content">
-                <ul>
+            <div class="dec-item">
+              <div class="dec-badge badge-sage"><span class="badge-day">25</span><span class="badge-month">APR</span></div>
+              <div class="dec-connector"><div class="dec-arrow"></div>
+                <div class="dec-content"><ul>
                   <li>Depart from Techo International Airport ✈️</li>
                   <li>Homeward bound to Manchester</li>
-                </ul>
+                </ul></div>
               </div>
             </div>
           </div>
-
         </div>
+
+      </div>
     </div>
   </section>
 
@@ -1301,15 +1216,3 @@ that home is not a place but a person.
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
